@@ -11,4 +11,8 @@
     <Folder Include="ServiceInterfaces\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\App.Infrastructure\App.Infrastructure.csproj" />
+  </ItemGroup>
+
 </Project>

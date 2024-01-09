@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace App.Domain.Entities.Authentication
+namespace App.Domain.Entities.Authentication.User
 {
     public class AppUser : BaseEntity
     {

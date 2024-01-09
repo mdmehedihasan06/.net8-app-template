@@ -5,10 +5,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace App.Domain.Entities.Authentication
+namespace App.Domain.Entities.Authentication.Menu
 {
     public class Menu : BaseEntity
     {
         public string MenuName { get; set; }
+        public string MenuUrl { get; set; }
     }
 }

@@ -9,5 +9,6 @@ namespace App.Domain.Entities.Authentication
 {
     public class Menu : BaseEntity
     {
+        public string MenuName { get; set; }
     }
 }

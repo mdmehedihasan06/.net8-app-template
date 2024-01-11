@@ -1,23 +1,15 @@
-﻿using App.Domain.Common;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Identity;
-using System.Reflection.Metadata.Ecma335;
+﻿using Microsoft.AspNetCore.Identity;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace App.Domain.Entities.Authentication.User
 {
-    public class AppUser //: IdentityUser<int>
+    public class AppUser : IdentityUser<int>
     {
         public AppUser()
         {
             UserTokens = new List<UserToken>();
         }        
         public string? FullName { get; set; }
-        public string? Email { get; set; }
         public int? CreatedBy { get; set; }
         public DateTime? CreatedAt { get; set; }
         public int? UpdatedBy { get; set; }

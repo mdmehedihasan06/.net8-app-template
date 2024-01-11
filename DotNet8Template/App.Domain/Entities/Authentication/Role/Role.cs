@@ -1,4 +1,5 @@
 ﻿using App.Domain.Common;
+using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace App.Domain.Entities.Authentication.Role
 {
-    public class Role //: IdentityRole<int>
+    public class Role : IdentityRole<int>
     {
         public string? Description { get; set; }
         public int CreatedBy { get; set; }

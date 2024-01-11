@@ -1,12 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using App.Infrastructure.Repositories.User;
+using App.Infrastructure.RepositoryInterfaces.User;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace App.Infrastructure.Helpers
 {
-    public class InfrastructureRegistration
+    public static class InfrastructureRegistration
     {
+        public static IServiceCollection RegisterRepositories(this IServiceCollection services)
+        {
+            //services.AddScoped<IUserTypeRepository, UserTypeRepository>();
+            //services.AddScoped<IUserRepository, UserRepository>();
+            return services;
+        }
     }
 }

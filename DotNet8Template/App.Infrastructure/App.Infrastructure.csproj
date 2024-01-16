@@ -10,4 +10,9 @@
     <ProjectReference Include="..\App.Domain\App.Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Repositories\Role\" />
+    <Folder Include="RepositoryInterfaces\Role\" />
+  </ItemGroup>
+
 </Project>

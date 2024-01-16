@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace App.Infrastructure.Repositories.Role
 {
-    public class RoleMenuPermission : IRoleMenuPermission
+    public class RoleMenuPermissionRepository : IRoleMenuPermissionRepository
     {
     }
 }

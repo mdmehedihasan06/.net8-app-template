@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace App.Infrastructure.RepositoryInterfaces.Role
+namespace App.Infrastructure.RepositoryInterfaces.Menu
 {
-    public interface IRoleMenuPermission
+    public interface IMenuRepository
     {
     }
 }

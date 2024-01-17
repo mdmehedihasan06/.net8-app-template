@@ -23,6 +23,7 @@ namespace App.Infrastructure.Helpers
             // Menu
             services.AddScoped<IMenuRepository, MenuRepository>();
             services.AddScoped<IUserMenuPermissionRepository, UserMenuPermissionRepository>();
+
             return services;
         }
     }

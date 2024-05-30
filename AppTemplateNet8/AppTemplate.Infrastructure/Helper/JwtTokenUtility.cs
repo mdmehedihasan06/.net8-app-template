@@ -40,7 +40,8 @@ namespace AppTemplate.Infrastructure.Helper
         {
             var claims = new[] {
             new Claim(ClaimTypes.NameIdentifier, userId),
-            new Claim(ClaimTypes.Name, username)
+            new Claim(ClaimTypes.Name, username),
+            new Claim("user_mapping_id", userId)
             };
 
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_accessTokenSecret));
@@ -78,6 +79,7 @@ namespace AppTemplate.Infrastructure.Helper
             {
                 new Claim(ClaimTypes.NameIdentifier, userId),
                 new Claim(ClaimTypes.Name, username),
+                new Claim("user_mapping_id", userId)
                 // Add other custom claims as needed
             };
 

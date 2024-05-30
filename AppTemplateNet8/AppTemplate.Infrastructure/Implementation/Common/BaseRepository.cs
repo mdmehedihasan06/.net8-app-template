@@ -48,7 +48,7 @@ namespace AppTemplate.Infrastructure.Implementation.Common
             get { return set ??= context.Set<T>(); }
         }
 
-        #region GetMethods
+        #region Get_Methods
         /// <summary>
         /// Get all IEntity list
         /// </summary>
@@ -56,6 +56,10 @@ namespace AppTemplate.Infrastructure.Implementation.Common
         public virtual async Task<List<T>> GetAllAsync()
         {
             return await Set?.ToListAsync();
+        }
+        public virtual async Task<List<T>> GetAllAsyncNoTracking()
+        {
+            return await Set?.AsNoTracking().ToListAsync();
         }
 
         /// <summary>
@@ -67,6 +71,10 @@ namespace AppTemplate.Infrastructure.Implementation.Common
         {
             return await Set.ToListAsync(cancellationToken);
         }
+        public virtual async Task<IEnumerable<T>> GetAllAsyncNoTracking(CancellationToken cancellationToken)
+        {
+            return await Set.AsNoTracking().ToListAsync(cancellationToken);
+        }
 
         /// <summary>
         /// Get all with filters
@@ -77,12 +85,16 @@ namespace AppTemplate.Infrastructure.Implementation.Common
         /// <param name="take">A take count</param>
         /// <returns>IEntity list</returns>
         public virtual IEnumerable<T> GetAll(
-            Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null,
-            string includeProperties = null,
-            int? skip = null,
-            int? take = null)
+            Func<IQueryable<T>, IOrderedQueryable<T>>? orderBy = null,
+            string? includeProperties = null, int? skip = null, int? take = null)
         {
             return GetQueryable(null, orderBy, includeProperties, skip, take);
+        }
+        public virtual IEnumerable<T> GetAllNoTracking(
+            Func<IQueryable<T>, IOrderedQueryable<T>>? orderBy = null,
+            string? includeProperties = null,int? skip = null,int? take = null)
+        {
+            return GetQueryable(null, orderBy, includeProperties, skip, take).AsNoTracking();
         }
 
         /// <summary>
@@ -94,12 +106,16 @@ namespace AppTemplate.Infrastructure.Implementation.Common
         /// <param name="take">A take count</param>
         /// <returns>IEntity list</returns>
         public virtual async Task<IEnumerable<T>> GetAllAsync(
-            Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null,
-            string includeProperties = null,
-            int? skip = null,
-            int? take = null)
+            Func<IQueryable<T>, IOrderedQueryable<T>>? orderBy = null,
+            string? includeProperties = null,int? skip = null,int? take = null)
         {
             return await GetQueryable(null, orderBy, includeProperties, skip, take).ToListAsync();
+        }
+        public virtual async Task<IEnumerable<T>> GetAllAsyncNoTracking(
+           Func<IQueryable<T>, IOrderedQueryable<T>>? orderBy = null,
+           string? includeProperties = null, int? skip = null, int? take = null)
+        {
+            return await GetQueryable(null, orderBy, includeProperties, skip, take).AsNoTracking().ToListAsync();
         }
 
         /// <summary>
@@ -112,13 +128,18 @@ namespace AppTemplate.Infrastructure.Implementation.Common
         /// <param name="take">A take count</param>
         /// <returns>IEntity list</returns>
         public virtual IEnumerable<T> Get(
-            Expression<Func<T, bool>> filter = null,
-            Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null,
-            string includeProperties = null,
-            int? skip = null,
-            int? take = null)
+            Expression<Func<T, bool>>? filter = null,
+            Func<IQueryable<T>, IOrderedQueryable<T>>? orderBy = null,
+            string? includeProperties = null,int? skip = null,int? take = null)
         {
             return GetQueryable(filter, orderBy, includeProperties, skip, take);
+        }
+        public virtual IEnumerable<T> GetNoTracking(
+            Expression<Func<T, bool>>? filter = null,
+            Func<IQueryable<T>, IOrderedQueryable<T>>? orderBy = null,
+            string? includeProperties = null, int? skip = null, int? take = null)
+        {
+            return GetQueryable(filter, orderBy, includeProperties, skip, take).AsNoTracking();
         }
 
         /// <summary>
@@ -131,13 +152,18 @@ namespace AppTemplate.Infrastructure.Implementation.Common
         /// <param name="take">A take count</param>
         /// <returns>The Entity</returns>
         public virtual async Task<IEnumerable<T>> GetAsync(
-            Expression<Func<T, bool>> filter = null,
-            Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null,
-            string includeProperties = null,
-            int? skip = null,
-            int? take = null)
+            Expression<Func<T, bool>>? filter = null,
+            Func<IQueryable<T>, IOrderedQueryable<T>>? orderBy = null,
+            string? includeProperties = null,int? skip = null,int? take = null)
         {
             return await GetQueryable(filter, orderBy, includeProperties, skip, take).ToListAsync();
+        }
+        public virtual async Task<IEnumerable<T>> GetAsyncNoTracking(
+            Expression<Func<T, bool>>? filter = null,
+            Func<IQueryable<T>, IOrderedQueryable<T>>? orderBy = null,
+            string? includeProperties = null, int? skip = null, int? take = null)
+        {
+            return await GetQueryable(filter, orderBy, includeProperties, skip, take).AsNoTracking().ToListAsync();
         }
 
         /// <summary>
@@ -147,10 +173,16 @@ namespace AppTemplate.Infrastructure.Implementation.Common
         /// <param name="includeProperties">A Include properties</param>
         /// <returns>Single Entity</returns>
         public virtual T GetOne(
-            Expression<Func<T, bool>> filter = null,
+            Expression<Func<T, bool>>? filter = null,
             string includeProperties = "")
         {
             return GetQueryable(filter, null, includeProperties).FirstOrDefault();
+        }
+        public virtual T GetOneNoTracking(
+            Expression<Func<T, bool>>? filter = null,
+            string includeProperties = "")
+        {
+            return GetQueryable(filter, null, includeProperties).AsNoTracking().FirstOrDefault();
         }
 
         /// <summary>
@@ -160,10 +192,16 @@ namespace AppTemplate.Infrastructure.Implementation.Common
         /// <param name="includeProperties">A Include properties</param>
         /// <returns>Single Entity</returns>
         public virtual async Task<T> GetOneAsync(
-            Expression<Func<T, bool>> filter = null,
-            string includeProperties = null)
+            Expression<Func<T, bool>>? filter = null,
+            string? includeProperties = null)
         {
             return await GetQueryable(filter, null, includeProperties).FirstOrDefaultAsync();
+        }
+        public virtual async Task<T> GetOneAsyncNoTracking(
+            Expression<Func<T, bool>>? filter = null,
+            string? includeProperties = null)
+        {
+            return await GetQueryable(filter, null, includeProperties).AsNoTracking().FirstOrDefaultAsync();
         }
 
         /// <summary>
@@ -174,11 +212,18 @@ namespace AppTemplate.Infrastructure.Implementation.Common
         /// <param name="includeProperties">A Include properties</param>
         /// <returns>First Entity</returns>
         public virtual T GetFirst(
-           Expression<Func<T, bool>> filter = null,
-           Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null,
+           Expression<Func<T, bool>>? filter = null,
+           Func<IQueryable<T>, IOrderedQueryable<T>>? orderBy = null,
            string includeProperties = "")
         {
             return GetQueryable(filter, orderBy, includeProperties).FirstOrDefault();
+        }
+        public virtual T GetFirstNoTracking(
+           Expression<Func<T, bool>>? filter = null,
+           Func<IQueryable<T>, IOrderedQueryable<T>>? orderBy = null,
+           string includeProperties = "")
+        {
+            return GetQueryable(filter, orderBy, includeProperties).AsNoTracking().FirstOrDefault();
         }
 
         /// <summary>
@@ -189,11 +234,18 @@ namespace AppTemplate.Infrastructure.Implementation.Common
         /// <param name="includeProperties">A Include properties</param>
         /// <returns>First Entity</returns>
         public virtual async Task<T> GetFirstAsync(
-            Expression<Func<T, bool>> filter = null,
-            Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null,
-            string includeProperties = null)
+            Expression<Func<T, bool>>? filter = null,
+            Func<IQueryable<T>, IOrderedQueryable<T>>? orderBy = null,
+            string? includeProperties = null)
         {
             return await GetQueryable(filter, orderBy, includeProperties).FirstOrDefaultAsync();
+        }
+        public virtual async Task<T> GetFirstAsyncNoTracking(
+            Expression<Func<T, bool>>? filter = null,
+            Func<IQueryable<T>, IOrderedQueryable<T>>? orderBy = null,
+            string? includeProperties = null)
+        {
+            return await GetQueryable(filter, orderBy, includeProperties).AsNoTracking().FirstOrDefaultAsync();
         }
 
         /// <summary>
@@ -218,9 +270,13 @@ namespace AppTemplate.Infrastructure.Implementation.Common
         /// </summary>
         /// <param name="filter">filter Function</param>
         /// <returns>boolean value</returns>
-        public virtual bool GetExists(Expression<Func<T, bool>> filter = null)
+        public virtual bool GetExists(Expression<Func<T, bool>>? filter = null)
         {
             return GetQueryable(filter).Any();
+        }
+        public virtual bool GetExistsNoTracking(Expression<Func<T, bool>>? filter = null)
+        {
+            return GetQueryable(filter).AsNoTracking().Any();
         }
 
         /// <summary>
@@ -228,9 +284,13 @@ namespace AppTemplate.Infrastructure.Implementation.Common
         /// </summary>
         /// <param name="filter">filter Function</param>
         /// <returns>boolean value</returns>
-        public virtual Task<bool> GetExistsAsync(Expression<Func<T, bool>> filter = null)
+        public virtual Task<bool> GetExistsAsync(Expression<Func<T, bool>>? filter = null)
         {
             return GetQueryable(filter).AnyAsync();
+        }
+        public virtual Task<bool> GetExistsAsyncNoTracking(Expression<Func<T, bool>>? filter = null)
+        {
+            return GetQueryable(filter).AsNoTracking().AnyAsync();
         }
         #endregion
 
@@ -314,7 +374,7 @@ namespace AppTemplate.Infrastructure.Implementation.Common
 
         #endregion
 
-        #region Find
+        #region Find_Methods
         /// <summary>
         /// Get entity based on expression
         /// </summary>
@@ -323,6 +383,10 @@ namespace AppTemplate.Infrastructure.Implementation.Common
         public virtual T Find(Expression<Func<T, bool>> match)
         {
             return Set.FirstOrDefault(match);
+        }
+        public virtual T FindNoTracking(Expression<Func<T, bool>> match)
+        {
+            return Set.AsNoTracking().FirstOrDefault(match);
         }
 
         /// <summary>
@@ -334,6 +398,10 @@ namespace AppTemplate.Infrastructure.Implementation.Common
         {
             return await Set.FirstOrDefaultAsync(match);
         }
+        public virtual async Task<T> FindAsyncNoTracking(Expression<Func<T, bool>> match)
+        {
+            return await Set.AsNoTracking().FirstOrDefaultAsync(match);
+        }
 
         /// <summary>
         /// Get entity list based on expression
@@ -343,6 +411,10 @@ namespace AppTemplate.Infrastructure.Implementation.Common
         public IEnumerable<T> FindAll(Expression<Func<T, bool>> match)
         {
             return Set.Where(match);
+        }
+        public IEnumerable<T> FindAllNoTracking(Expression<Func<T, bool>> match)
+        {
+            return Set.AsNoTracking().Where(match);
         }
 
         /// <summary>
@@ -354,6 +426,10 @@ namespace AppTemplate.Infrastructure.Implementation.Common
         {
             return await Set.Where(match).ToListAsync();
         }
+        public async Task<List<T>> FindAllAsyncNoTracking(Expression<Func<T, bool>> match)
+        {
+            return await Set.Where(match).AsNoTracking().ToListAsync();
+        }
 
         /// <summary>
         /// Get async entity list based on expression
@@ -363,6 +439,10 @@ namespace AppTemplate.Infrastructure.Implementation.Common
         public async Task<IEnumerable<T>> FindAllIEnumerableAsync(Expression<Func<T, bool>> match)
         {
             return await Set.Where(match).ToListAsync();
+        }
+        public async Task<IEnumerable<T>> FindAllIEnumerableAsyncNoTracking(Expression<Func<T, bool>> match)
+        {
+            return await Set.Where(match).AsNoTracking().ToListAsync();
         }
 
         #endregion
@@ -377,11 +457,9 @@ namespace AppTemplate.Infrastructure.Implementation.Common
         /// <param name="take">A take count</param>
         /// <returns>The Entity</returns>
         public virtual IQueryable<T> GetQueryable(
-            Expression<Func<T, bool>> filter = null,
-            Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null,
-            string includeProperties = null,
-            int? skip = null,
-            int? take = null)
+            Expression<Func<T, bool>>? filter = null,
+            Func<IQueryable<T>, IOrderedQueryable<T>>? orderBy = null,
+            string? includeProperties = null,int? skip = null,int? take = null)
         {
             includeProperties ??= string.Empty;
             IQueryable<T> query = Set;
@@ -412,6 +490,41 @@ namespace AppTemplate.Infrastructure.Implementation.Common
             }
 
             return query;
+        }
+        public virtual IQueryable<T> GetQueryableNoTracking(
+            Expression<Func<T, bool>>? filter = null,
+            Func<IQueryable<T>, IOrderedQueryable<T>>? orderBy = null,
+            string? includeProperties = null,int? skip = null,int? take = null)
+        {
+            includeProperties ??= string.Empty;
+            IQueryable<T> query = Set;
+
+            if (filter != null)
+            {
+                query = query.Where(filter);
+            }
+
+            foreach (var includeProperty in includeProperties.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries))
+            {
+                query = query.Include(includeProperty);
+            }
+
+            if (orderBy != null)
+            {
+                query = orderBy(query);
+            }
+
+            if (skip.HasValue)
+            {
+                query = query.Skip(skip.Value);
+            }
+
+            if (take.HasValue)
+            {
+                query = query.Take(take.Value);
+            }
+
+            return query.AsNoTracking();
         }
 
         /// <summary>

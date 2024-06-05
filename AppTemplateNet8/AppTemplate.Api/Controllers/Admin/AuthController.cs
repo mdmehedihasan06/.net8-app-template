@@ -41,5 +41,50 @@ namespace AppTemplate.Api.Controllers.Admin
             var response = _authService.Logout(userId);
             return response;
         }
+
+        [HttpPost]
+        [Route("ForgetPassword")]
+        public ResponseModel ForgetPassword()
+        {
+            int userId = Convert.ToInt32(_httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
+            var response = _authService.Logout(userId);
+            return response;
+        }
+
+        [HttpPost]
+        [Route("ChangePassword")]
+        public ResponseModel ChangePassword()
+        {
+            int userId = Convert.ToInt32(_httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
+            var response = _authService.Logout(userId);
+            return response;
+        }
+
+        [HttpPost]
+        [Route("UpdatePassword")]
+        public ResponseModel UpdatePassword()
+        {
+            int userId = Convert.ToInt32(_httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
+            var response = _authService.Logout(userId);
+            return response;
+        }
+
+        [HttpPost]
+        [Route("RefreshToken")]
+        public ResponseModel RefreshToken()
+        {
+            int userId = Convert.ToInt32(_httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
+            var response = _authService.Logout(userId);
+            return response;
+        }
+
+        [HttpPost]
+        [Route("RegisterUser")]
+        public ResponseModel Register()
+        {
+            int userId = Convert.ToInt32(_httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
+            var response = _authService.Logout(userId);
+            return response;
+        }
     }
 }

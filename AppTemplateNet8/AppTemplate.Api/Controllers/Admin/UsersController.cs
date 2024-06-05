@@ -95,7 +95,6 @@ namespace AppTemplate.Api.Controllers.Admin
                 string token = authHeader.Substring("Bearer ".Length).Trim();
                 return token;
             }
-
             // If the Authorization header is missing or doesn't start with "Bearer ",
             // you can handle this case accordingly or return null.
             return null;

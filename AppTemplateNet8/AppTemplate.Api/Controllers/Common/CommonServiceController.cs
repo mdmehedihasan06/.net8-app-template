@@ -65,4 +65,3 @@ namespace AppTemplate.Api.Controllers.Common
         }
     }
 }
-

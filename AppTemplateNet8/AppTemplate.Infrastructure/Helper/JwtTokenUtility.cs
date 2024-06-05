@@ -12,7 +12,7 @@ namespace AppTemplate.Infrastructure.Helper
     public class JwtTokenUtility
     {
         private readonly string _issuer = "localhost";
-        private readonly string _audience = "client";
+        private readonly string _audience = "localhost";
         private readonly string _accessTokenSecret = "SLSECRETKEY2024USBGROUP_SLSECRETKEY2024USBGROUP";
         private readonly string _refreshTokenSecret = "SLSECRETKEY2024USBGROUP_SLSECRETKEY2024USBGROUP";
 
@@ -26,7 +26,7 @@ namespace AppTemplate.Infrastructure.Helper
         public JwtTokenUtility() { }
 
         public (string accessToken, string refreshToken) GenerateTokens(string userId, string username)
-        {            
+        {
             // Generate Access Token
             var accessToken = GenerateAccessToken(userId, username);
 
@@ -39,9 +39,10 @@ namespace AppTemplate.Infrastructure.Helper
         private string GenerateAccessToken(string userId, string username)
         {
             var claims = new[] {
-            new Claim(ClaimTypes.NameIdentifier, userId),
-            new Claim(ClaimTypes.Name, username),
-            new Claim("user_mapping_id", userId)
+            //new Claim(ClaimTypes.NameIdentifier, userId),
+            //new Claim(ClaimTypes.Name, username),
+            new Claim("user_id", userId),
+            new Claim("user_name", username)
             };
 
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_accessTokenSecret));
@@ -71,29 +72,6 @@ namespace AppTemplate.Infrastructure.Helper
             );
 
             return new JwtSecurityTokenHandler().WriteToken(refreshToken);
-        }
-
-        public static string GenerateJwtToken(string userId, string username)
-        {
-            var claims = new[]
-            {
-                new Claim(ClaimTypes.NameIdentifier, userId),
-                new Claim(ClaimTypes.Name, username),
-                new Claim("user_mapping_id", userId)
-                // Add other custom claims as needed
-            };
-
-            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("SLSECRETKEY2024USBGROUP_SLSECRETKEY2024USBGROUP"));
-            var credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
-            var token = new JwtSecurityToken(
-                issuer: "localhost",
-                audience: "client",
-                claims: claims,
-                expires: DateTime.Now.AddDays(1),
-                signingCredentials: credentials
-            );
-
-            return new JwtSecurityTokenHandler().WriteToken(token);
         }
     }
 }

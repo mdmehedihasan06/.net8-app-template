@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations;
 using AppTemplate.Service.Interface.Common;
 
 
-namespace AppTemplate.Api.Controllers.Admin
+namespace AppTemplate.Api.Controllers.Common
 {
     [Route("api/[controller]")]
     [ApiController]

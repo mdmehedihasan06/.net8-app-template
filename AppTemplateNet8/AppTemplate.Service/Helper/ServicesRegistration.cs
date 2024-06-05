@@ -24,6 +24,8 @@ namespace AppTemplate.Service.Helper
             services.AddScoped<IDepartmentService, DepartmentService>();
             services.AddScoped<IDesignationService, DesignationService>();
 
+            services.AddScoped<TokenService>();
+
             return services;
         }
     }

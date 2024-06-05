@@ -34,16 +34,7 @@ namespace AppTemplate.Api.Controllers.Admin
         }
 
         [HttpPost]
-        [Route("AgentLogin")]
-        public ResponseModel AgentLogin()
-        {
-            int userId = Convert.ToInt32(_httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
-            var response = _authService.Logout(userId);
-            return response;
-        }
-
-        [HttpPost]
-        [Route("AgentLogout")]
+        [Route("AppLogout")]
         public ResponseModel Logout()
         {
             int userId = Convert.ToInt32(_httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value);

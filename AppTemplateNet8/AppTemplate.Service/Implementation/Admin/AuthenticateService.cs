@@ -20,7 +20,7 @@ namespace AppTemplate.Service.Implementation.Admin
         {
             _userService = userService;
         }
-
+        
         public async Task<AuthResponseModel> Login(UserLoginDto user)
         {
             var userExists = (await _userService.GetByUsernameAsync(user.Username));
@@ -60,6 +60,26 @@ namespace AppTemplate.Service.Implementation.Admin
                 return Utilities.GetInternalServerErrorMsg(ex.Message);
             }
 
+        }
+
+        public Task<ResponseModel> ForgetPassword(ForgetPasswordDto forgetPassword)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<ResponseModel> ChangePassword(ChangePasswordDto changePassword)
+        {
+            throw new NotImplementedException();
+        }
+        
+        public Task<ResponseModel> UpdatePassword(UpdatePasswordDto updatePassword)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<ResponseModel> RefreshToken(RefreshTokenDto refreshToken)
+        {
+            throw new NotImplementedException();
         }
     }
 }

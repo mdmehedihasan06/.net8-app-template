@@ -44,46 +44,34 @@ namespace AppTemplate.Api.Controllers.Admin
 
         [HttpPost]
         [Route("ForgetPassword")]
-        public ResponseModel ForgetPassword()
-        {
-            int userId = Convert.ToInt32(_httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
-            var response = _authService.Logout(userId);
+        public Task<ResponseModel> ForgetPassword(ForgetPasswordDto forgetPassword)
+        {            
+            var response = _authService.ForgetPassword(forgetPassword);
             return response;
+
         }
 
         [HttpPost]
         [Route("ChangePassword")]
-        public ResponseModel ChangePassword()
+        public Task<ResponseModel> ChangePassword(ChangePasswordDto changePassword)
         {
-            int userId = Convert.ToInt32(_httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
-            var response = _authService.Logout(userId);
+            var response = _authService.ChangePassword(changePassword);
             return response;
         }
 
         [HttpPost]
         [Route("UpdatePassword")]
-        public ResponseModel UpdatePassword()
+        public Task<ResponseModel> UpdatePassword(UpdatePasswordDto updatePassword)
         {
-            int userId = Convert.ToInt32(_httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
-            var response = _authService.Logout(userId);
+            var response = _authService.UpdatePassword(updatePassword);
             return response;
         }
 
         [HttpPost]
         [Route("RefreshToken")]
-        public ResponseModel RefreshToken()
+        public Task<ResponseModel> RefreshToken(RefreshTokenDto refreshToken)
         {
-            int userId = Convert.ToInt32(_httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
-            var response = _authService.Logout(userId);
-            return response;
-        }
-
-        [HttpPost]
-        [Route("RegisterUser")]
-        public ResponseModel Register()
-        {
-            int userId = Convert.ToInt32(_httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
-            var response = _authService.Logout(userId);
+            var response = _authService.RefreshToken(refreshToken);
             return response;
         }
     }

@@ -19,9 +19,6 @@ namespace AppTemplate.Dto.Dtos.Admin
     public class ForgetPasswordDto
     {
         public string Email { get; set; }
-        public string Password { get; set; }
-        [Compare(nameof(Password), ErrorMessage = "'Password' and 'Confirm Password' don't match.")]
-        public string ConfirmPassword { get; set; }
     }
     public class ChangePasswordDto
     {

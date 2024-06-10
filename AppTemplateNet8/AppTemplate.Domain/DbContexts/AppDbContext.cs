@@ -36,7 +36,7 @@ namespace AppTemplate.Domain.DBContexts
             await Database.ExecuteSqlRawAsync("INSERT INTO public.\"Departments\"(\"Name\",\"CreatedAt\",\"StatusId\") VALUES('Software Engineering',CURRENT_TIMESTAMP,1);");
             await Database.ExecuteSqlRawAsync("INSERT INTO public.\"Designations\"(\"Name\",\"CreatedAt\",\"StatusId\") VALUES('Software Engineer',CURRENT_TIMESTAMP,1);");
             await Database.ExecuteSqlRawAsync("INSERT INTO public.\"UserTypes\"(\"Name\",\"CreatedAt\",\"StatusId\") VALUES('Admin',CURRENT_TIMESTAMP,1);");
-            //await Database.ExecuteSqlRawAsync("INSERT INTO public.\"Users\"(\"FullName\",\"Username\",\"Password\",\"SecurityStamp\",\"UserTypeId\",\"DepartmentId\",\"DesignationId\",\"CreatedAt\",\"StatusId\") VALUES('Admin','admin','" + passwordHash + "','" + securityStamp + "',1,1,1,CURRENT_TIMESTAMP,1);");
+            await Database.ExecuteSqlRawAsync("INSERT INTO public.\"Users\"(\"FullName\",\"Username\",\"Password\",\"SecurityStamp\",\"UserTypeId\",\"DepartmentId\",\"DesignationId\",\"CreatedAt\",\"StatusId\") VALUES('Admin','admin','" + passwordHash + "','" + securityStamp + "',1,1,1,CURRENT_TIMESTAMP,1);");
         }
     }
 }

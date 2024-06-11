@@ -24,27 +24,19 @@ using static Dapper.SqlMapper;
 
 namespace AppTemplate.Infrastructure.Implementation.Admin
 {
-    public class UserRepository : BaseRepository<ApplicationUser>, IUserRepository
+    public class UserRepository(AppDbContext context, IDapperBaseRepository dapper, IHttpContextAccessor httpContextAccessor,
+        IMapper mapper, IPasswordHasher passwordHasher) : BaseRepository<ApplicationUser>(context), IUserRepository
     {
-        private readonly IDapperBaseRepository _dapper;
-        private readonly AppDbContext _context;
-        private readonly IHttpContextAccessor _httpContextAccessor;
-        private readonly IMapper _mapper;
-
-        public UserRepository(AppDbContext context, IDapperBaseRepository dapper,
-            IHttpContextAccessor httpContextAccessor,
-            IMapper mapper) : base(context)
-        {
-            _context = context;
-            _dapper = dapper;
-            _httpContextAccessor = httpContextAccessor;
-            _mapper = mapper;
-        }
+        private readonly IDapperBaseRepository _dapper = dapper;
+        private readonly AppDbContext _context = context;
+        private readonly IHttpContextAccessor _httpContextAccessor = httpContextAccessor;
+        private readonly IMapper _mapper = mapper;
+        private readonly IPasswordHasher _passwordHasher = passwordHasher;
 
         public async Task<ResponseModelList> GetAll(int page, int size, int statusId)
         {
             try
-            {                
+            {
                 var request = _httpContextAccessor.HttpContext.Request;
 
                 var search = request.Query["search"].ToString();
@@ -91,7 +83,7 @@ namespace AppTemplate.Infrastructure.Implementation.Admin
             #endregion
 
             var guidGenerate = Guid.NewGuid().ToString();
-            var hashedPassword = PasswordHasher.HashPassword(model.Password, guidGenerate);
+            var hashedPassword = _passwordHasher.HashPassword(model.Password, guidGenerate);
 
             var newUser = _mapper.Map<ApplicationUser>(model);
             newUser.Password = hashedPassword;

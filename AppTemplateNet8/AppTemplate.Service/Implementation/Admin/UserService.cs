@@ -24,11 +24,13 @@ namespace AppTemplate.Service.Implementation.Admin
 
         public async Task<UserDto> GetByUsernameAsync(string username)
         {
-            return (UserDto)await _userRepository.GetAsync(x => x.Username == username);
+            var user = (await _userRepository.GetAsync(x => x.Username == username)).FirstOrDefault();
+            return _mapper.Map<UserDto>(user);
         }
         public async Task<UserDto> GetByCredentialAsync(string username, string password)
         {
-            return (UserDto)await _userRepository.GetAsync(x => x.Username == username && x.Password == password);
+            var user = (await _userRepository.GetAsync(x => x.Username == username && x.Password == password)).FirstOrDefault();
+            return _mapper.Map<UserDto>(user);
         }
 
         public async Task<ResponseModelList> GetAll(int page, int size, int statusId)

@@ -1,4 +1,5 @@
-﻿using AppTemplate.Infrastructure.Implementation.Admin;
+﻿using AppTemplate.Domain.AppConstants;
+using AppTemplate.Infrastructure.Implementation.Admin;
 using AppTemplate.Infrastructure.Implementation.Common;
 using AppTemplate.Infrastructure.Implementation.Settings;
 using AppTemplate.Infrastructure.Interface.Admin;
@@ -13,6 +14,9 @@ namespace AppTemplate.Infrastructure.Helper
     {
         public static IServiceCollection RegisterInfrastructure(this IServiceCollection services)
         {
+            //            
+            services.AddSingleton<IJwtTokenUtility>(new JwtTokenUtility(AppConstants.JwtSecretKey));
+
             // Admin            
             services.AddScoped<IUserRepository, UserRepository>();            
             services.AddScoped<IUserTypeRepository, UserTypeRepository>();

@@ -10,6 +10,11 @@ using AppTemplate.Service.Helper;
 using AppTemplate.Infrastructure.Helper;
 using Microsoft.OpenApi.Models;
 using Microsoft.EntityFrameworkCore;
+using AppTemplate.Domain.Entities.Admin;
+using Microsoft.AspNetCore.Identity;
+using AppTemplate.Domain.DbContexts;
+using AppTemplate.Domain.Utilities;
+using AppTemplate.Domain.AppConstants;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -38,12 +43,16 @@ builder.Services.AddCors(p => p.AddDefaultPolicy(builder => builder.AllowAnyOrig
 builder.Services.RegisterServices();
 builder.Services.RegisterInfrastructure();
 builder.Services.AddAutoMapper(typeof(MappingProfile));
-builder.Services.AddHttpContextAccessor();
-builder.Services.AddHostedService<KafkaConsumerService>();
+//builder.Services.AddHttpContextAccessor();
+builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+//builder.Services.AddHostedService<KafkaConsumerService>();
 builder.Services.AddScoped<IDapperContext, DapperContext>();
+builder.Services.AddScoped<DataSeeder>();
+builder.Services.AddSingleton<IPasswordHasher, PasswordHasher>();
+
 
 // Adding Authentication
-builder.Services.ConfigureAuthentication(builder.Configuration["JWT:Secret"], builder.Configuration["JWT:ValidIssuer"], builder.Configuration["JWT:ValidAudience"]);
+builder.Services.ConfigureAuthentication(AppConstants.JwtSecretKey, builder.Configuration["JWT:ValidIssuer"], builder.Configuration["JWT:ValidAudience"]);
 //builder.Services.ConfigureAuthentication(builder.Configuration["SLCRM:JwtAccTokenSecret"]);
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -101,5 +110,25 @@ app.UseCors();
 app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();
+
+// Seed the database
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+
+    try
+    {
+        var context = services.GetRequiredService<AppDbContext>();
+        await context.Database.MigrateAsync();
+
+        var seeder = services.GetRequiredService<DataSeeder>();
+        await seeder.SeedAsync();
+    }
+    catch (Exception ex)
+    {
+        var logger = services.GetRequiredService<ILogger<Program>>();
+        logger.LogError(ex, "An error occurred seeding the DB.");
+    }
+}
 
 app.Run();

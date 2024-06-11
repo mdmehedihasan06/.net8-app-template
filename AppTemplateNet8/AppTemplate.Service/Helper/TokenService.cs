@@ -1,8 +1,13 @@
 ﻿using Microsoft.AspNetCore.Http;
 using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
 
 namespace AppTemplate.Service.Helper
 {
+    public interface ITokenService
+    {
+    }
+
     public class TokenService
     {
         private readonly IHttpContextAccessor _httpContextAccessor;

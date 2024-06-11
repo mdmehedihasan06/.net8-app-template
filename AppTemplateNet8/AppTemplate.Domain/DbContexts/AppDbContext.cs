@@ -25,18 +25,7 @@ namespace AppTemplate.Domain.DBContexts
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
-            _ = SeedAsync(builder);
-        }
-        private async Task SeedAsync(ModelBuilder builder)
-        {
-            var securityStamp = Guid.NewGuid().ToString();
-            var passwordHash = PasswordHasher.HashPassword("Admin@123", securityStamp);
-
-            // Add your user creation logic here
-            await Database.ExecuteSqlRawAsync("INSERT INTO public.\"Departments\"(\"Name\",\"CreatedAt\",\"StatusId\") VALUES('Software Engineering',CURRENT_TIMESTAMP,1);");
-            await Database.ExecuteSqlRawAsync("INSERT INTO public.\"Designations\"(\"Name\",\"CreatedAt\",\"StatusId\") VALUES('Software Engineer',CURRENT_TIMESTAMP,1);");
-            await Database.ExecuteSqlRawAsync("INSERT INTO public.\"UserTypes\"(\"Name\",\"CreatedAt\",\"StatusId\") VALUES('Admin',CURRENT_TIMESTAMP,1);");
-            await Database.ExecuteSqlRawAsync("INSERT INTO public.\"Users\"(\"FullName\",\"Username\",\"Password\",\"SecurityStamp\",\"UserTypeId\",\"DepartmentId\",\"DesignationId\",\"CreatedAt\",\"StatusId\") VALUES('Admin','admin','" + passwordHash + "','" + securityStamp + "',1,1,1,CURRENT_TIMESTAMP,1);");
+            // Data seeding is done using DataSeeder service in Program.cs
         }
     }
 }

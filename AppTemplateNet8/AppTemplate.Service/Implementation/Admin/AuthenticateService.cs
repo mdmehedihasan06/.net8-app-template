@@ -16,24 +16,24 @@ namespace AppTemplate.Service.Implementation.Admin
 {
     public class AuthenticateService : IAuthenticateService
     {
-        private readonly IUserService _userService;
+        private readonly IUserRepository _userRepository;
         private readonly IPasswordHasher _passwordHasher;
         private readonly IJwtTokenUtility _jwtTokenUtility;
 
-        public AuthenticateService(IUserService userService, IPasswordHasher passwordHasher, IJwtTokenUtility jwtTokenUtility)
+        public AuthenticateService(IUserRepository userRepository, IPasswordHasher passwordHasher, IJwtTokenUtility jwtTokenUtility)
         {
-            _userService = userService;
+            _userRepository = userRepository;
             _passwordHasher = passwordHasher;
             _jwtTokenUtility = jwtTokenUtility;
         }
 
         public async Task<AuthResponseModel> Login(UserLoginDto user)
         {
-            var userExists = (await _userService.GetByUsernameAsync(user.Username));
+            var userExists = (await _userRepository.GetAsync(x => x.Username == user.Username)).FirstOrDefault();
             if (userExists != null)
             {
                 var passHash = _passwordHasher.HashPassword(user.Password, userExists.SecurityStamp);
-                var checkUser = (await _userService.GetByCredentialAsync(user.Username, passHash));
+                var checkUser = (await _userRepository.GetAsync(x => x.Username == user.Username && x.Password == passHash)).FirstOrDefault(); //(await _userService.GetByCredentialAsync(user.Username, passHash));
                 if (checkUser != null)
                 {
                     // If valid, generate JWT token 
@@ -68,8 +68,14 @@ namespace AppTemplate.Service.Implementation.Admin
 
         }
 
-        public Task<ResponseModel> ForgetPassword(ForgetPasswordDto forgetPassword)
+        public async Task<ResponseModel> ForgetPassword(ForgetPasswordDto forgetPassword)
         {
+            var userExists = (await _userRepository.GetAsync(x => x.Email == forgetPassword.Email)).FirstOrDefault();
+            if (userExists != null)
+            {
+
+            }
+
             throw new NotImplementedException();
         }
 
@@ -77,7 +83,7 @@ namespace AppTemplate.Service.Implementation.Admin
         {
             throw new NotImplementedException();
         }
-        
+
         public Task<ResponseModel> UpdatePassword(UpdatePasswordDto updatePassword)
         {
             throw new NotImplementedException();

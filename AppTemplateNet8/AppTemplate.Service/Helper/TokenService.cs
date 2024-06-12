@@ -6,6 +6,7 @@ namespace AppTemplate.Service.Helper
 {
     public interface ITokenService
     {
+        string GetUserMappingIdFromToken();
     }
 
     public class TokenService

@@ -4,11 +4,13 @@ using AppTemplate.Dto.Dtos.Admin;
 using AppTemplate.Dto.Helpers;
 using AppTemplate.Infrastructure.Helper;
 using AppTemplate.Infrastructure.Interface.Admin;
+using AppTemplate.Service.Helper;
 using AppTemplate.Service.Interface.Admin;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -70,9 +72,12 @@ namespace AppTemplate.Service.Implementation.Admin
 
         public async Task<ResponseModel> ForgetPassword(ForgetPasswordDto forgetPassword)
         {
-            var userExists = (await _userRepository.GetAsync(x => x.Email == forgetPassword.Email)).FirstOrDefault();
-            if (userExists != null)
+            var user = (await _userRepository.GetAsync(x => x.Email == forgetPassword.Email)).FirstOrDefault();
+            if (user != null)
             {
+                var newPass = CommonHelperService.GenerateRandomAlphanumeric(8).ToString();
+                var securityStamp = new Guid().ToString();
+                var newPassHash = _passwordHasher.HashPassword(newPass, securityStamp);
 
             }
 
